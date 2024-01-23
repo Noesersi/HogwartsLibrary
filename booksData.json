@@ -1,45 +1,82 @@
 [
-    {
-      "id": "1",
-      "title": "Harry Potter and the Philosopher's Stone",
-      "author": "J.K. Rowling",
-      "genre": "Fantasy",
-      "year": 1997
-    },
-    {
-      "id": "2",
-      "title": "The Hobbit",
-      "author": "J.R.R. Tolkien",
-      "genre": "Fantasy",
-      "year": 1937
-    },
-    {
-      "id": "3",
-      "title": "To Kill a Mockingbird",
-      "author": "Harper Lee",
-      "genre": "Fiction",
-      "year": 1960
-    },
-    {
-      "id": "4",
-      "title": "1984",
-      "author": "George Orwell",
-      "genre": "Dystopian",
-      "year": 1949
-    },
-    {
-      "id": "5",
-      "title": "The Great Gatsby",
-      "author": "F. Scott Fitzgerald",
-      "genre": "Classic",
-      "year": 1925
-    },
-    {
-      "id": "6",
-      "title": "The Catcher in the Rye",
-      "author": "J.D. Salinger",
-      "genre": "Fiction",
-      "year": 1951
-    }
-  ]
-  
+  {
+    "id": "1",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "year": 1997,
+    "rating": 4.2
+  },
+  {
+    "id": "2",
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "year": 1937,
+    "rating": 3.8
+  },
+  {
+    "id": "3",
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "year": 1960,
+    "rating": 4.5
+  },
+  {
+    "id": "4",
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian",
+    "year": 1949,
+    "rating": 4.0
+  },
+  {
+    "id": "5",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "year": 1925,
+    "rating": 4.8
+  },
+  {
+    "id": "6",
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Fiction",
+    "year": 1951,
+    "rating": 3.9
+  },
+  {
+    "id": "7",
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "year": 1954,
+    "rating": 4.7
+  },
+  {
+    "id": "8",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Romance",
+    "year": 1813,
+    "rating": 4.6
+  },
+  {
+    "id": "9",
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "genre": "Magical Realism",
+    "year": 1967,
+    "rating": 4.9
+  },
+  {
+    "id": "10",
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "genre": "Dystopian",
+    "year": 1932,
+    "rating": 4.3
+  }
+]
