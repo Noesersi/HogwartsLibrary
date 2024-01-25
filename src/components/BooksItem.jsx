@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const BooksItem = ({ book }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   const handleNavigateToBookDetail = () => {
-    navigation.navigate('BookDetailScreen', { book });
-  };
+    navigation.navigate('BookDetailScreen', { book })
+  }
 
   return (
     <TouchableOpacity onPress={handleNavigateToBookDetail}>
@@ -23,8 +23,8 @@ const BooksItem = ({ book }) => {
       </Text>
     </View>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -33,29 +33,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 10,
     paddingHorizontal: 20,
-    width: '100%',
+    width: '100%'
   },
   image: {
     width: 80,
     height: 90,
-    objectFit:'fill',
-    marginRight: 15,
+    objectFit: 'fill',
+    marginRight: 15
   },
   detailsContainer: {
-    flex: 1,
+    flex: 1
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 5
   },
   author: {
     fontSize: 14,
-    color: 'gray',
+    color: 'gray'
   },
   rating: {
-    marginTop: 'auto',
+    marginTop: 'auto'
   }
-});
+})
 
-export default BooksItem;
+export default BooksItem

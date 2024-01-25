@@ -5,7 +5,8 @@
     "author": "J.K. Rowling",
     "genre": "Fantasy",
     "year": 1997,
-    "rating": 4.2
+    "rating": 4.2,
+    "summary": "The first book in the Harry Potter series, where Harry discovers he is a wizard and attends Hogwarts School of Witchcraft and Wizardry."
   },
   {
     "id": "2",
@@ -13,7 +14,8 @@
     "author": "J.R.R. Tolkien",
     "genre": "Fantasy",
     "year": 1937,
-    "rating": 3.8
+    "rating": 3.8,
+    "summary": "Bilbo Baggins, a hobbit, embarks on an epic journey to help a group of dwarves reclaim their homeland from the fearsome dragon Smaug."
   },
   {
     "id": "3",
@@ -21,7 +23,8 @@
     "author": "Harper Lee",
     "genre": "Fiction",
     "year": 1960,
-    "rating": 4.5
+    "rating": 4.5,
+    "summary": "Set in the American South during the 1930s, the novel explores racial injustice and moral growth through the eyes of a young girl named Scout Finch."
   },
   {
     "id": "4",
@@ -29,7 +32,8 @@
     "author": "George Orwell",
     "genre": "Dystopian",
     "year": 1949,
-    "rating": 4.0
+    "rating": 4.0,
+    "summary": "A dystopian novel depicting a totalitarian society, where the government controls every aspect of citizens' lives."
   },
   {
     "id": "5",
@@ -37,7 +41,8 @@
     "author": "F. Scott Fitzgerald",
     "genre": "Classic",
     "year": 1925,
-    "rating": 4.8
+    "rating": 4.8,
+    "summary": "Set during the Roaring Twenties, the novel explores themes of decadence, idealism, and the American Dream through the life of Jay Gatsby."
   },
   {
     "id": "6",
@@ -45,7 +50,8 @@
     "author": "J.D. Salinger",
     "genre": "Fiction",
     "year": 1951,
-    "rating": 3.9
+    "rating": 3.9,
+    "summary": "Follows the experiences of a disenchanted teenager named Holden Caulfield in New York City, exploring themes of alienation and identity."
   },
   {
     "id": "7",
@@ -53,7 +59,8 @@
     "author": "J.R.R. Tolkien",
     "genre": "Fantasy",
     "year": 1954,
-    "rating": 4.7
+    "rating": 4.7,
+    "summary": "An epic fantasy trilogy that follows the quest to destroy the One Ring and save Middle-earth from the dark lord Sauron."
   },
   {
     "id": "8",
@@ -61,15 +68,8 @@
     "author": "Jane Austen",
     "genre": "Romance",
     "year": 1813,
-    "rating": 4.6
-  },
-  {
-    "id": "9",
-    "title": "One Hundred Years of Solitude",
-    "author": "Gabriel García Márquez",
-    "genre": "Magical Realism",
-    "year": 1967,
-    "rating": 4.9
+    "rating": 4.6,
+    "summary": "A classic novel exploring themes of love and class in early 19th-century England, focusing on the relationship between Elizabeth Bennet and Mr. Darcy."
   },
   {
     "id": "10",
@@ -77,6 +77,16 @@
     "author": "Aldous Huxley",
     "genre": "Dystopian",
     "year": 1932,
-    "rating": 4.3
+    "rating": 4.3,
+    "summary": "Set in a dystopian future, the novel explores a society where citizens are conditioned for contentment, and individuality is sacrificed for stability."
+  },
+  {
+    "id": "9",
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "genre": "Magical Realism",
+    "year": 1967,
+    "rating": 4.9,
+    "summary": "A landmark novel blending magical realism and historical fiction, tracing the Buendía family's history in the fictional town of Macondo."
   }
 ]
