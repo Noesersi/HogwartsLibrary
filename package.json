@@ -11,14 +11,18 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
-    "expo": "^49.0.22",
+    "expo": "^50.0.3",
     "expo-status-bar": "~1.6.0",
     "expo-updates": "^0.24.8",
     "react": "18.2.0",
     "react-native": "0.72.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
   },
   "private": true
 }
