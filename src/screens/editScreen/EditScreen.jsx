@@ -8,22 +8,22 @@ import { BookContext } from '../../context/context.js'
 const EditScreen = ({ route, navigation }) => {
   const { fetchData } = useContext(BookContext)
 
-  const { book } = route.params
+  const { currentBook } = route.params
   const [editedData, setEditedData] = useState({
-    title: book.title || '',
-    author: book.author || '',
-    genre: book.genre || '',
-    year: book.year ? String(book.year) : '',
-    rating: book.rating ? String(book.rating) : '',
-    summary: book.summary || ''
+    title: currentBook.title || '',
+    author: currentBook.author || '',
+    genre: currentBook.genre || '',
+    year: currentBook.year ? String(currentBook.year) : '',
+    rating: currentBook.rating ? String(currentBook.rating) : '',
+    summary: currentBook.summary || ''
   })
 
   const handleSaveChanges = async () => {
     try {
-      await editBook(book.id, editedData)
+      await editBook(currentBook.id, editedData)
       Alert.alert('Book updated successfully')
       fetchData()
-      navigation.navigate('BookDetailScreen', { book })
+      navigation.navigate('BookDetailScreen', { currentBook })
     } catch (error) {
       console.error('Error saving changes:', error)
     }
