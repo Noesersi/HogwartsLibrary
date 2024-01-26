@@ -1,4 +1,4 @@
-const BASE_URL = 'http://10.0.2.2:1234/api'
+import { BASE_URL } from '../../env'
 
 const addBook = async (newBook) => {
   try {
