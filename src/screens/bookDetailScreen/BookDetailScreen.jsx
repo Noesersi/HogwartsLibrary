@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
@@ -9,7 +9,15 @@ import { BookContext } from '../../context/context'
 const BookDetailScreen = ({ route }) => {
   const { book } = route.params
   const navigation = useNavigation()
-  const { fetchData } = useContext(BookContext)
+  const { fetchData, books } = useContext(BookContext)
+  const [currentBook, setCurrentBook] = useState(book)
+  useEffect(() => {
+    const findBook = books.find((b) => b.id === currentBook.id)
+    if (findBook) {
+      setCurrentBook(findBook)
+    }
+  }, [books, currentBook])
+
   const handleDelete = async () => {
     try {
       const success = await deleteBook(book.id)
@@ -32,30 +40,30 @@ const BookDetailScreen = ({ route }) => {
         }}
         style={styles.image}
       />
-      <Text style={styles.title}>{book.title}</Text>
+      <Text style={styles.title}>{currentBook.title}</Text>
 
       <Text>
         <Text style={styles.detailsTag}>Author: </Text>
-        {book.author}
+        {currentBook.author}
       </Text>
       <Text>
         <Text style={styles.detailsTag}>Genre: </Text>
-        {book.genre}
+        {currentBook.genre}
       </Text>
       <Text>
         <Text style={styles.detailsTag}>Year: </Text>
-        {book.year}
+        {currentBook.year}
       </Text>
       <Text>
         <Text style={styles.detailsTag}>Rating: </Text>
-        {book.rating}/5
+        {currentBook.rating}/5
       </Text>
       <Text style={styles.centerDescription}>
         <Text style={styles.detailsTag}>Summary: </Text>
-        {book.summary}
+        {currentBook.summary}
       </Text>
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={() => navigation.navigate('EditScreen', { book })}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditScreen', { currentBook })}>
           <Text style={styles.editButton}>✏️ Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete}>
