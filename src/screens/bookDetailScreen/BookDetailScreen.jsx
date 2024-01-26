@@ -1,12 +1,29 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
+/* eslint-disable no-unused-vars */
+import React, { useContext } from 'react'
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
+import deleteBook from '../../services/deleteBook'
+import { BookContext } from '../../context/context'
 
 const BookDetailScreen = ({ route }) => {
   const { book } = route.params
   const navigation = useNavigation()
-
+  const { fetchData } = useContext(BookContext)
+  const handleDelete = async () => {
+    try {
+      const success = await deleteBook(book.id)
+      if (success) {
+        Alert.alert('Book deleted successfully')
+        navigation.goBack()
+        fetchData()
+      } else {
+        Alert.alert('Error deleting book')
+      }
+    } catch (error) {
+      console.error('Error deleting book', error)
+    }
+  }
   return (
     <View style={styles.container}>
       <Image
@@ -38,10 +55,10 @@ const BookDetailScreen = ({ route }) => {
         {book.summary}
       </Text>
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={() => navigation.navigate('EditScreen', { bookId: book.id })}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditScreen', { book })}>
           <Text style={styles.editButton}>✏️ Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={handleDelete}>
           <Text style={styles.deleteButton}>❌ Delete</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -1,6 +1,7 @@
-import React from 'react'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+/* eslint-disable no-unused-vars */
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { styles } from './styles'
 
 const BooksItem = ({ book }) => {
   const navigation = useNavigation()
@@ -25,37 +26,5 @@ const BooksItem = ({ book }) => {
     </TouchableOpacity>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-    paddingHorizontal: 20,
-    width: '100%'
-  },
-  image: {
-    width: 80,
-    height: 90,
-    objectFit: 'fill',
-    marginRight: 15
-  },
-  detailsContainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5
-  },
-  author: {
-    fontSize: 14,
-    color: 'gray'
-  },
-  rating: {
-    marginTop: 'auto'
-  }
-})
 
 export default BooksItem

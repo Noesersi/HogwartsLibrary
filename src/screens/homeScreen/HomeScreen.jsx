@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import {
   Text,
   View,
@@ -7,26 +7,14 @@ import {
   TouchableOpacity,
   SafeAreaView
 } from 'react-native'
-import { getBooksData } from '../../services/dataLoader.js'
 import BooksItem from '../../components/BooksItem.jsx'
 import { useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
+import { BookContext } from '../../context/context.js'
 
 export default function HomeScreen () {
-  const [booksData, setBooksData] = useState([])
   const navigation = useNavigation()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getBooksData()
-        setBooksData(data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const { books } = useContext(BookContext)
 
   const handleAddBook = () => {
     navigation.navigate('AddBook')
@@ -38,13 +26,13 @@ export default function HomeScreen () {
         <FlatList
           ListHeaderComponent={
             <View style={styles.header}>
-              <Text style={styles.title}>Hogwarts Library</Text>
+              <Text style={styles.title}>🕸️ Hogwarts Library</Text>
               <TouchableOpacity onPress={() => handleAddBook()}>
-                <Text style={styles.addButton}>Add Book</Text>
+                <Text style={styles.addButton}>Add</Text>
               </TouchableOpacity>
             </View>
           }
-          data={booksData}
+          data={books}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <BooksItem book={item} />}
         />

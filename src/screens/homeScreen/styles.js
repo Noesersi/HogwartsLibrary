@@ -7,13 +7,12 @@ export const styles = StyleSheet.create({
   title: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize: 30,
-    fontFamily: 'Roboto'
+    fontSize: 30
   },
   header: {
     marginTop: 50,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20,
