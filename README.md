@@ -16,7 +16,7 @@ Se trata de una libreria virtual en la que puedes añadir, editar y consultar lo
 
 -Primer paso: instalar dependencias con 'npm install'
 
--Segundo paso: crear un archivo con el nombre "env.js" en la raiz del proyecto. Añadir este codigo al archivo: "export const BASE_URL = 'http://10.0.2.2:1234/api'". La ip ("10.0.2.2") puede variar segun el dispotivio en el que se lance, en este caso la ip es el equivalente de localHost para cualquier device de Android Studio. Para consultar la ip de otros dispositivos acceder a la documentacion de expo https://docs.expo.dev/.
+-Segundo paso: crear un archivo con el nombre "env.js" en la raiz del proyecto. Añadir este codigo al archivo: "export const BASE_URL = 'http://10.0.2.2:1234/api'". La ip ("10.0.2.2") puede variar segun el dispositivo en el que se lance, en este caso la ip es el equivalente de localHost para cualquier device de Android Studio. Para consultar la ip de otros dispositivos acceder a la documentacion de expo https://docs.expo.dev/.
 
 -Tercer paso: iniciar proyecto 'npm run start'
 
