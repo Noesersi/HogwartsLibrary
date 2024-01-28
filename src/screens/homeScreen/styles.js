@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     marginTop: 50,
+    gap: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -19,6 +20,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20
   },
   addButton: {
+    marginHorizontal: 'auto',
     marginTop: 10,
     backgroundColor: '#32cd32',
     borderRadius: 20,
