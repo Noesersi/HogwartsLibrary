@@ -4,40 +4,33 @@ import BookDetailScreen from './src/screens/bookDetailScreen/BookDetailScreen.js
 import EditScreen from './src/screens/editScreen/EditScreen.jsx'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { BookProvider } from './src/context/context.js'
+import { BookProvider } from './src/context/context.jsx'
+import { View } from 'react-native'
+import BottomBar from './src/components/BottomBar/BottomBar.jsx'
+import SearchOpenLibrary from './src/screens/openLibrary/Search/SearchBooks.jsx'
+import GetPopularBooks from './src/screens/openLibrary/Populars/PopularBooks.jsx'
 
 const Stack = createStackNavigator()
 
 export default function App () {
   return (
     <BookProvider>
-      <NavigationContainer>
+    <NavigationContainer>
+      <View style={ { flex: 1 } }>
         <Stack.Navigator
-          options={{ header: () => null }}
           initialRouteName="Home"
+          screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen
-            name="Home"
-            options={{ header: () => null }}
-            component={HomeScreen}
-          />
-          <Stack.Screen
-            name="AddBook"
-            options={{ header: () => null }}
-            component={AddBookScreen}
-          />
-          <Stack.Screen
-            name="BookDetailScreen"
-            options={{ header: () => null }}
-            component={BookDetailScreen}
-          />
-          <Stack.Screen
-            name="EditScreen"
-            options={{ header: () => null }}
-            component={EditScreen}
-          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="AddBook" component={AddBookScreen} />
+          <Stack.Screen name="BookDetailScreen" component={BookDetailScreen} />
+          <Stack.Screen name="EditScreen" component={EditScreen} />
+          <Stack.Screen name="Search" component={SearchOpenLibrary} />
+          <Stack.Screen name="Popular" component={GetPopularBooks} />
         </Stack.Navigator>
-      </NavigationContainer>
-    </BookProvider>
+        <BottomBar />
+      </View>
+    </NavigationContainer>
+  </BookProvider>
   )
 }

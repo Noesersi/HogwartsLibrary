@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 6
+    gap: 6,
   },
 
   title: {
@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    width: 250,
-    height: 340
+    width: 100,
+    height: 150
   },
   buttons: {
     flexDirection: 'row',
