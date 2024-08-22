@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import BooksItem from '../../../components/BooksItem/BooksItem';
+import { TouchableOpacity } from 'react-native';
 
 const PopularBooksView = () => {
   const [popularBooks, setPopularBooks] = useState([]);
   const [loadingPopularBooks, setLoadingPopularBooks] = useState(false);
   const [page, setPage] = useState(1);
   const [moreLoading, setMoreLoading] = useState(false);
+  const navigation = useNavigation();
 
   const fetchPopularBooks = async () => {
     setLoadingPopularBooks(true);
@@ -40,23 +44,42 @@ const PopularBooksView = () => {
     }
   };
 
-  const renderBookItem = ({ item }) => {
-    const imageUrl = item.volumeInfo.imageLinks?.thumbnail
-      ? item.volumeInfo.imageLinks.thumbnail
-      : 'https://via.placeholder.com/128x193.png?text=No+Cover';
+  const handleBookPress = async (bookId) => {
+    try {
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+      const data = await response.json();
 
-    const authors = item.volumeInfo.authors ? item.volumeInfo.authors.slice(0, 3).join(', ') : 'Unknown Author';
-
-    return (
-      <View style={styles.bookItem}>
-        <Image source={{ uri: imageUrl }} style={styles.coverImage} />
-        <View style={styles.bookDetails}>
-          <Text style={styles.title}>{item.volumeInfo.title}</Text>
-          <Text style={styles.author}>{authors}</Text>
-        </View>
-      </View>
-    );
+      navigation.navigate('BookDetailScreen', {
+        book: {
+          title: data.volumeInfo.title,
+          author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
+          summary: data.volumeInfo.description || 'No description available',
+          genre: data.volumeInfo.categories?.join(', ') || 'No genres available',
+          rating: data.volumeInfo.averageRating || 'No rating available',
+          year: data.volumeInfo.publishedDate || 'Unknown',
+          imageUrl: data.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
+          pageCount: data.volumeInfo.pageCount || 'Unknown',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching book details:', error);
+    }
   };
+
+  const renderBookItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleBookPress(item.id)}>
+
+      <BooksItem
+        book={{
+          title: item.volumeInfo.title,
+          author: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
+          rating: item.volumeInfo.averageRating || '_',
+          imageUrl: item.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
+        }}
+        onPress={() => handleBookPress(item.id)}
+      />
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -93,33 +116,6 @@ const styles = StyleSheet.create({
   },
   list: {
     marginVertical: 10,
-  },
-  bookItem: {
-    flexDirection: 'row',
-    marginBottom: 15,
-    padding: 10,
-    borderColor: '#555',
-    borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center',
-    backgroundColor: '#1e1e1e',
-  },
-  coverImage: {
-    width: 50,
-    height: 75,
-    marginRight: 10,
-  },
-  bookDetails: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  author: {
-    fontSize: 14,
-    color: '#aaaaaa',
   },
 });
 

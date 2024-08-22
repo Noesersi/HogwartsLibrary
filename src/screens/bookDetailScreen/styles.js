@@ -29,8 +29,8 @@ export const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    width: 100,
-    height: 150,
+    width: 150,
+    height: 185,
     marginBottom: 20, 
   },
   summaryContainer: {

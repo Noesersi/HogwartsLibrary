@@ -54,19 +54,19 @@ const BookDetailScreen = ({ route }) => {
         />
       ) : (
         <Image
-          source={{
-            uri: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          }}
+          source={
+            require('../../../assets/libroViejo.png')
+          }
           style={styles.image}
         />
       )}
 
       <Text style={styles.title}>{currentBook.title}</Text>
-     
-        <Text>
-          <Text style={styles.detailsTag}>Author: </Text>
-          {currentBook.author}
-        </Text>
+
+      <Text>
+        <Text style={styles.detailsTag}>Author: </Text>
+        {currentBook.author}
+      </Text>
 
       {currentBook.genre && (
         <Text>
@@ -88,18 +88,18 @@ const BookDetailScreen = ({ route }) => {
           {currentBook.rating}/5
         </Text>
       )}
-    {currentBook.pageCount && (
-          <Text>
-            <Text style={styles.detailsTag}>Pages: </Text>
-            {currentBook.pageCount}
-          </Text>
-        )}
+      {currentBook.pageCount && (
+        <Text>
+          <Text style={styles.detailsTag}>Pages: </Text>
+          {currentBook.pageCount}
+        </Text>
+      )}
       <View style={styles.summaryContainer}>
         <ScrollView>
           <Text style={styles.centerDescription}>
             <Text style={styles.detailsTag}>Summary: </Text>
           </Text>
-           
+
           <RenderHTML
             contentWidth={parseInt(styles.summaryContainer.width)}
             source={{ html: `<p>${currentBook.summary || 'No description available'}</p>` }}

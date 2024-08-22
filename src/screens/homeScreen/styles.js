@@ -3,15 +3,16 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#333',
+
   },
   title: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 30
   },
   header: {
-    paddingTop: 30,
+    paddingTop: 15,
     gap: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -43,7 +44,9 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     padding:15,
-    paddingBottom:80
+    paddingBottom:80,
+    backgroundColor: '#121212',
+
     
   }, 
   errorContainer: {

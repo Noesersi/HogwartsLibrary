@@ -7,12 +7,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 10,
     paddingHorizontal: 20,
-    width: '100%'
+    width: '100%',
+    borderWidth: 1,
+    padding: 3,
+    borderColor: 'white'
   },
   image: {
     width: 80,
-    height: 90,
-    objectFit: 'fill',
+    height: 110,
+    objectFit: 'cover',
     marginRight: 15
   },
   detailsContainer: {
@@ -21,13 +24,16 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5
+    marginBottom: 5,
+    color: 'gray'
+
   },
   author: {
     fontSize: 14,
     color: 'gray'
   },
   rating: {
-    marginTop: 'auto'
+    marginTop: 'auto',
+    color: 'gray'
   }
 })

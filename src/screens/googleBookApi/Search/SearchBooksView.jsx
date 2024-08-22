@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, Image, ActivityIndicator, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity, Keyboard } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { GOOGLE_BOOKS_API_KEY } from '../../../../env';
+import BooksItem from '../../../components/BooksItem/BooksItem';
 
 const SearchBooksView = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,45 +68,40 @@ const SearchBooksView = () => {
     }
   };
 
-  const renderBookItem = ({ item }) => {
-    const bookInfo = item.volumeInfo;
-    const imageUrl = bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover';
-    const authors = bookInfo.authors ? bookInfo.authors.join(', ') : 'Unknown Author';
+  const handleBookPress = async (bookId) => {
+    try {
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}?key=${GOOGLE_BOOKS_API_KEY}`);
+      const data = await response.json();
 
-    const fetchBookDetails = async (bookId) => {
-      try {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}?key=${GOOGLE_BOOKS_API_KEY}`);
-        const data = await response.json();
-        console.log(data, "data");
-        navigation.navigate('BookDetailScreen', {
-          book: {
-            title: data.volumeInfo.title,
-            author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
-            summary: data.volumeInfo.description || 'No description available',
-            genre: data.volumeInfo.categories?.join(', ') || 'No genres available',
-            rating: data.volumeInfo.averageRating || 'No rating available',
-            year: data.volumeInfo.publishedDate || 'Unknown',
-            imageUrl: data.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
-            pageCount : data.volumeInfo.pageCount || 'Unknown',
-          },
-        });
-      } catch (error) {
-        console.error('Error fetching book details:', error);
-      }
-    };
-
-    return (
-      <TouchableOpacity onPress={() => fetchBookDetails(item.id)}>
-        <View style={styles.bookItem}>
-          <Image source={{ uri: imageUrl }} style={styles.coverImage} />
-          <View style={styles.bookDetails}>
-            <Text style={styles.title}>{bookInfo.title}</Text>
-            <Text style={styles.author}>{authors}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+      navigation.navigate('BookDetailScreen', {
+        book: {
+          title: data.volumeInfo.title,
+          author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
+          summary: data.volumeInfo.description || 'No description available',
+          genre: data.volumeInfo.categories?.join(', ') || 'No genres available',
+          rating: data.volumeInfo.averageRating || 'No rating available',
+          year: data.volumeInfo.publishedDate || 'Unknown',
+          imageUrl: data.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
+          pageCount: data.volumeInfo.pageCount || 'Unknown',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching book details:', error);
+    }
   };
+
+  const renderBookItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleBookPress(item.id)}>
+      <BooksItem
+        book={{
+          title: item.volumeInfo.title,
+          author: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
+          rating: item.volumeInfo.averageRating || '_',
+          imageUrl: item.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
+        }}
+      />
+    </TouchableOpacity>
+  );
 
   const renderSuggestionItem = ({ item }) => (
     <TouchableOpacity onPress={() => {
@@ -168,7 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#121212',
-    paddingBottom:50
+    paddingBottom: 50,
   },
   heading: {
     fontSize: 20,
@@ -207,33 +203,6 @@ const styles = StyleSheet.create({
   },
   list: {
     marginVertical: 10,
-  },
-  bookItem: {
-    flexDirection: 'row',
-    marginBottom: 15,
-    padding: 10,
-    borderColor: '#555',
-    borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center',
-    backgroundColor: '#1e1e1e',
-  },
-  coverImage: {
-    width: 50,
-    height: 75,
-    marginRight: 10,
-  },
-  bookDetails: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  author: {
-    fontSize: 14,
-    color: '#aaaaaa',
   },
 });
 

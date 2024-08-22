@@ -5,7 +5,7 @@ import EditScreen from './src/screens/editScreen/EditScreen.jsx'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { BookProvider } from './src/context/context.jsx'
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import BottomBar from './src/components/BottomBar/BottomBar.jsx'
 import SearchBooksView from './src/screens/googleBookApi/Search/SearchBooksView.jsx'
 import PopularBooksView from './src/screens/googleBookApi/Populars/PopularBooksView.jsx'
@@ -17,6 +17,7 @@ export default function App () {
     <BookProvider>
     <NavigationContainer>
       <View style={ { flex: 1 } }>
+        <StatusBar hidden={true}/>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{ headerShown: false }}
