@@ -7,8 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { BookProvider } from './src/context/context.jsx'
 import { View } from 'react-native'
 import BottomBar from './src/components/BottomBar/BottomBar.jsx'
-import SearchOpenLibrary from './src/screens/openLibrary/Search/SearchBooks.jsx'
-import GetPopularBooks from './src/screens/openLibrary/Populars/PopularBooks.jsx'
+import SearchBooksView from './src/screens/googleBookApi/Search/SearchBooksView.jsx'
+import PopularBooksView from './src/screens/googleBookApi/Populars/PopularBooksView.jsx'
 
 const Stack = createStackNavigator()
 
@@ -25,8 +25,8 @@ export default function App () {
           <Stack.Screen name="AddBook" component={AddBookScreen} />
           <Stack.Screen name="BookDetailScreen" component={BookDetailScreen} />
           <Stack.Screen name="EditScreen" component={EditScreen} />
-          <Stack.Screen name="Search" component={SearchOpenLibrary} />
-          <Stack.Screen name="Popular" component={GetPopularBooks} />
+          <Stack.Screen name="Search" component={SearchBooksView} />
+          <Stack.Screen name="Popular" component={PopularBooksView} />
         </Stack.Navigator>
         <BottomBar />
       </View>

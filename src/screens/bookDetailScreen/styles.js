@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -6,32 +6,44 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 6,
+    padding:20,
   },
-
   title: {
     fontWeight: 'bold',
     fontSize: 35,
     textAlign: 'center',
-    margin: 20
+    margin: 20,
   },
   detailsTag: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+  },
+  detailItem: {
+    flex: 1,
+    width: '90%',
+    textAlign: 'left',
+    marginBottom: 10,
   },
   centerDescription: {
     textAlign: 'center',
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   image: {
     alignItems: 'center',
     width: 100,
-    height: 150
+    height: 150,
+    marginBottom: 20, 
+  },
+  summaryContainer: {
+    maxHeight: 150, 
+    width: '90%',
+    marginBottom: 20,
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
     gap: 3,
-    marginTop: 20
+    marginTop: 20,
   },
   editButton: {
     color: 'white',
@@ -41,7 +53,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   deleteButton: {
     color: 'white',
@@ -51,7 +63,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   backButton: {
     color: 'white',
@@ -60,6 +72,6 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    fontSize: 15
-  }
-})
+    fontSize: 15,
+  },
+});

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, Button } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator } from 'react-native';
 
-const GetPopularBooks = () => {
+const PopularBooksView = () => {
   const [popularBooks, setPopularBooks] = useState([]);
   const [loadingPopularBooks, setLoadingPopularBooks] = useState(false);
   const [page, setPage] = useState(1);
@@ -10,9 +10,9 @@ const GetPopularBooks = () => {
   const fetchPopularBooks = async () => {
     setLoadingPopularBooks(true);
     try {
-      const response = await fetch('http://openlibrary.org/search.json?q=best+books&page=1&limit=20');
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=best+books&startIndex=0&maxResults=20`);
       const data = await response.json();
-      setPopularBooks(data.docs);
+      setPopularBooks(data.items || []);
       setPage(1);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -22,16 +22,16 @@ const GetPopularBooks = () => {
   };
 
   useEffect(() => {
-    fetchPopularBooks()
-  }, [])
+    fetchPopularBooks();
+  }, []);
 
   const fetchMorePopularBooks = async () => {
     setMoreLoading(true);
     try {
       const nextPage = page + 1;
-      const response = await fetch(`http://openlibrary.org/search.json?q=best+books&page=${nextPage}&limit=20`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=best+books&startIndex=${(nextPage - 1) * 20}&maxResults=20`);
       const data = await response.json();
-      setPopularBooks([...popularBooks, ...data.docs]);
+      setPopularBooks([...popularBooks, ...(data.items || [])]);
       setPage(nextPage);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -41,17 +41,17 @@ const GetPopularBooks = () => {
   };
 
   const renderBookItem = ({ item }) => {
-    const imageUrl = item.cover_i
-      ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
+    const imageUrl = item.volumeInfo.imageLinks?.thumbnail
+      ? item.volumeInfo.imageLinks.thumbnail
       : 'https://via.placeholder.com/128x193.png?text=No+Cover';
 
-    const authors = item.author_name ? item.author_name.slice(0, 3).join(', ') : 'Unknown Author';
+    const authors = item.volumeInfo.authors ? item.volumeInfo.authors.slice(0, 3).join(', ') : 'Unknown Author';
 
     return (
       <View style={styles.bookItem}>
         <Image source={{ uri: imageUrl }} style={styles.coverImage} />
         <View style={styles.bookDetails}>
-          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.title}>{item.volumeInfo.title}</Text>
           <Text style={styles.author}>{authors}</Text>
         </View>
       </View>
@@ -66,7 +66,7 @@ const GetPopularBooks = () => {
       ) : (
         <FlatList
           data={popularBooks}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item.id}
           renderItem={renderBookItem}
           style={styles.list}
           onEndReachedThreshold={0.1}
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#121212',
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   heading: {
     fontSize: 20,
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GetPopularBooks;
+export default PopularBooksView;

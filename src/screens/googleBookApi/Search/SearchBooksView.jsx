@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Image, ActivityIndicator, TouchableOpacity, Keyboard } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { GOOGLE_BOOKS_API_KEY } from '../../../../env';
 
-const SearchOpenLibrary = () => {
+const SearchBooksView = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [books, setBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [page, setPage] = useState(1);
   const [moreLoading, setMoreLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  
+
   const searchInputRef = useRef(null);
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     searchInputRef.current.focus();
@@ -21,12 +24,12 @@ const SearchOpenLibrary = () => {
 
     setLoadingBooks(true);
     try {
-      const response = await fetch(`http://openlibrary.org/search.json?q=${searchQuery}&page=1&limit=20`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&startIndex=${(page - 1) * 20}&maxResults=20&key=${GOOGLE_BOOKS_API_KEY}`);
       const data = await response.json();
-      setBooks(data.docs);
+      setBooks(page === 1 ? data.items : [...books, ...data.items]);
       setPage(1);
-      setSuggestions([]); 
-      setSearchQuery('')
+      setSuggestions([]);
+      setSearchQuery('');
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -38,9 +41,9 @@ const SearchOpenLibrary = () => {
     setMoreLoading(true);
     try {
       const nextPage = page + 1;
-      const response = await fetch(`http://openlibrary.org/search.json?q=${searchQuery}&page=${nextPage}&limit=20`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&startIndex=${(nextPage - 1) * 20}&maxResults=20&key=${GOOGLE_BOOKS_API_KEY}`);
       const data = await response.json();
-      setBooks([...books, ...data.docs]);
+      setBooks([...books, ...data.items]);
       setPage(nextPage);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -56,40 +59,62 @@ const SearchOpenLibrary = () => {
     }
 
     try {
-      const response = await fetch(`http://openlibrary.org/search.json?q=${query}&page=1&limit=5`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=0&maxResults=5&key=${GOOGLE_BOOKS_API_KEY}`);
       const data = await response.json();
-      setSuggestions(data.docs);
+      setSuggestions(data.items);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     }
   };
 
   const renderBookItem = ({ item }) => {
-    const imageUrl = item.cover_i
-      ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
-      : 'https://via.placeholder.com/128x193.png?text=No+Cover';
+    const bookInfo = item.volumeInfo;
+    const imageUrl = bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover';
+    const authors = bookInfo.authors ? bookInfo.authors.join(', ') : 'Unknown Author';
 
-    const authors = item.author_name ? item.author_name.slice(0, 3).join(', ') : 'Unknown Author';
+    const fetchBookDetails = async (bookId) => {
+      try {
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}?key=${GOOGLE_BOOKS_API_KEY}`);
+        const data = await response.json();
+        console.log(data, "data");
+        navigation.navigate('BookDetailScreen', {
+          book: {
+            title: data.volumeInfo.title,
+            author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
+            summary: data.volumeInfo.description || 'No description available',
+            genre: data.volumeInfo.categories?.join(', ') || 'No genres available',
+            rating: data.volumeInfo.averageRating || 'No rating available',
+            year: data.volumeInfo.publishedDate || 'Unknown',
+            imageUrl: data.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193.png?text=No+Cover',
+            pageCount : data.volumeInfo.pageCount || 'Unknown',
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching book details:', error);
+      }
+    };
 
     return (
-      <View style={styles.bookItem}>
-        <Image source={{ uri: imageUrl }} style={styles.coverImage} />
-        <View style={styles.bookDetails}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.author}>{authors}</Text>
+      <TouchableOpacity onPress={() => fetchBookDetails(item.id)}>
+        <View style={styles.bookItem}>
+          <Image source={{ uri: imageUrl }} style={styles.coverImage} />
+          <View style={styles.bookDetails}>
+            <Text style={styles.title}>{bookInfo.title}</Text>
+            <Text style={styles.author}>{authors}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const renderSuggestionItem = ({ item }) => (
     <TouchableOpacity onPress={() => {
-      setSearchQuery(item.title);
+      setSearchQuery(item.volumeInfo.title);
       setSuggestions([]);
       searchBooks();
       Keyboard.dismiss(); 
     }}>
-      <Text style={styles.suggestionItem}>{item.title}</Text>
+      <Text style={styles.suggestionItem}>{item.volumeInfo.title}</Text>
     </TouchableOpacity>
   );
 
@@ -116,7 +141,7 @@ const SearchOpenLibrary = () => {
       {suggestions.length > 0 && (
         <FlatList
           data={suggestions}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item.id}
           renderItem={renderSuggestionItem}
           style={styles.suggestionsList}
         />
@@ -126,7 +151,7 @@ const SearchOpenLibrary = () => {
       ) : (
         <FlatList
           data={books}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item.id}
           renderItem={renderBookItem}
           style={styles.list}
           onEndReachedThreshold={0.1}
@@ -212,4 +237,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchOpenLibrary;
+export default SearchBooksView;

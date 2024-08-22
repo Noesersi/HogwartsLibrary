@@ -1,79 +1,133 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { styles } from './styles'
-import deleteBook from '../../services/deleteBook'
-import { BookContext } from '../../context/context'
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { styles } from './styles';
+import deleteBook from '../../services/deleteBook';
+import { BookContext } from '../../context/context';
+import RenderHTML from 'react-native-render-html';
+
 
 const BookDetailScreen = ({ route }) => {
-  const { book } = route.params
-  const navigation = useNavigation()
-  const { fetchData, books } = useContext(BookContext)
-  const [currentBook, setCurrentBook] = useState(book)
+  const { book } = route.params;
+  const navigation = useNavigation();
+  const { fetchData, books } = useContext(BookContext);
+  const [currentBook, setCurrentBook] = useState(book);
+
   useEffect(() => {
-    const findBook = books.find((b) => b.id === currentBook.id)
-    if (findBook) {
-      setCurrentBook(findBook)
+    if (book.id) {
+      const findBook = books.find((b) => b.id === book.id);
+      if (findBook) {
+        setCurrentBook(findBook);
+      }
+    } else {
+      setCurrentBook(book);
     }
-  }, [books, currentBook])
+  }, [books, book]);
 
   const handleDelete = async () => {
     try {
-      const success = await deleteBook(book.id)
+      const success = await deleteBook(currentBook.id);
       if (success) {
-        Alert.alert('Book deleted successfully')
-        navigation.goBack()
-        fetchData()
+        Alert.alert('Book deleted successfully');
+        navigation.goBack();
+        fetchData();
       } else {
-        Alert.alert('Error deleting book')
+        Alert.alert('Error deleting book');
       }
     } catch (error) {
-      console.error('Error deleting book', error)
+      console.error('Error deleting book', error);
     }
-  }
+  };
+
+  const getYear = () => {
+    return currentBook.publishedDate || currentBook.year || null;
+  };
+
   return (
-      <ScrollView contentContainerStyle={styles.container} >
+    <ScrollView contentContainerStyle={styles.container}>
+      {currentBook.imageUrl ? (
         <Image
           source={{
-            uri: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            uri: currentBook.imageUrl,
           }}
           style={styles.image}
         />
-        <Text style={styles.title}>{currentBook.title}</Text>
+      ) : (
+        <Image
+          source={{
+            uri: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          }}
+          style={styles.image}
+        />
+      )}
 
+      <Text style={styles.title}>{currentBook.title}</Text>
+     
         <Text>
           <Text style={styles.detailsTag}>Author: </Text>
           {currentBook.author}
         </Text>
+
+      {currentBook.genre && (
         <Text>
-          <Text style={styles.detailsTag}>Genre: </Text>
+          <Text style={styles.detailsTag}>Genres: </Text>
           {currentBook.genre}
         </Text>
+      )}
+
+      {getYear() && (
         <Text>
           <Text style={styles.detailsTag}>Year: </Text>
-          {currentBook.year}
+          {getYear()}
         </Text>
+      )}
+
+      {currentBook.rating && (
         <Text>
           <Text style={styles.detailsTag}>Rating: </Text>
           {currentBook.rating}/5
         </Text>
-        <Text style={styles.centerDescription}>
-          <Text style={styles.detailsTag}>Summary: </Text>
-          {currentBook.summary}
-        </Text>
-        <View style={styles.buttons}>
-          <TouchableOpacity onPress={() => navigation.navigate('EditScreen', { currentBook })}>
-            <Text style={styles.editButton}>✏️ Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleDelete}>
-            <Text style={styles.deleteButton}>❌ Delete</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backButton}>🔙 Go Back</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-  )
-}
+      )}
+    {currentBook.pageCount && (
+          <Text>
+            <Text style={styles.detailsTag}>Pages: </Text>
+            {currentBook.pageCount}
+          </Text>
+        )}
+      <View style={styles.summaryContainer}>
+        <ScrollView>
+          <Text style={styles.centerDescription}>
+            <Text style={styles.detailsTag}>Summary: </Text>
+          </Text>
+           
+          <RenderHTML
+            contentWidth={parseInt(styles.summaryContainer.width)}
+            source={{ html: `<p>${currentBook.summary || 'No description available'}</p>` }}
+          />
+        </ScrollView>
+      </View>
 
-export default BookDetailScreen
+      <View style={styles.buttons}>
+        {currentBook.id && (
+          <>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditScreen', { currentBook })}
+            >
+              <Text style={styles.editButton}>✏️ Edit</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleDelete}>
+              <Text style={styles.deleteButton}>❌ Delete</Text>
+            </TouchableOpacity>
+          </>
+        )}
+
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>🔙 Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
+export default BookDetailScreen;
