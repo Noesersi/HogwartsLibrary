@@ -89,7 +89,7 @@ const PopularBooksView = () => {
       ) : (
         <FlatList
           data={popularBooks}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
           renderItem={renderBookItem}
           style={styles.list}
           onEndReachedThreshold={0.1}
